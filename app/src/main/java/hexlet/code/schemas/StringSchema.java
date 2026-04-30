@@ -23,7 +23,6 @@ public class StringSchema implements Schema {
             value = (String) obj;
         }
 
-        
         if (isRequired) {
             if ((value == null) || (value.isEmpty())) {
                 return false;

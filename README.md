@@ -9,8 +9,6 @@
 
 ## Validator java project:
 
-...
-
 ## Setup
 
 ## Run

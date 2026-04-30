@@ -1,7 +1,7 @@
 plugins {
     application
     checkstyle
-    id("org.sonarqube") version "7.2.3.7755"
+    id("org.sonarqube") version "7.3.0.8198"
 }
 
 group = "hexlet.code"
@@ -17,13 +17,13 @@ application {
 
 sonar {
     properties {
-        property("sonar.projectKey", "User57134_java-project-71")
+        property("sonar.projectKey", "User57134_java-project-78")
         property("sonar.organization", "user57134")
     }
 }
 
 dependencies {
-    implementation("org.projectlombok:lombok:1.18.46")
+    //implementation("org.projectlombok:lombok:1.18.46")
     //
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")

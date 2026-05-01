@@ -8,7 +8,7 @@ public class StringSchema implements Schema {
     private String substring = "";
 
     public StringSchema() {
-
+        //
     }
 
     @Override
@@ -23,20 +23,13 @@ public class StringSchema implements Schema {
             value = (String) obj;
         }
 
-        if (isRequired) {
-            if ((value == null) || (value.isEmpty())) {
+        if (value == null || value.isEmpty()) {
+            if (isRequired) {
                 return false;
             }
-        }
-
-        if (length > 0) {
-            if (value.length() <= length) {
-                return false;
-            }
-        }
-
-        if (!substring.isEmpty()) {
-            if (!value.contains(substring)) {
+        } else {
+            if (((length > 0) && (value.length() < length))
+                || ((!substring.isEmpty()) && !value.contains(substring))) {
                 return false;
             }
         }

@@ -1,25 +1,20 @@
 package hexlet.code.schemas;
 
 
-import hexlet.code.Schema;
-
-
-public class StringSchema implements Schema {
+public class StringSchema extends BaseSchema<String> {
     private boolean isRequired = false;
     private int length = 0;
     private String substring = "";
+
 
     public StringSchema() {
         //
     }
 
-    @Override
-    public boolean isValid(Object obj) {
-        if (obj != null) {
-            if (!(obj instanceof String value)) {
-                throw new IllegalArgumentException("A passed data should have the string type.");
-            }
 
+    @Override
+    public boolean isValid(String value) {
+        if (value != null) {
             if (value.isEmpty()) {
                 if (isRequired) {
                     return false;
@@ -42,6 +37,7 @@ public class StringSchema implements Schema {
 
     public StringSchema required() {
         isRequired = true;
+
         return this;
     }
 
@@ -59,3 +55,4 @@ public class StringSchema implements Schema {
         return this;
     }
 }
+

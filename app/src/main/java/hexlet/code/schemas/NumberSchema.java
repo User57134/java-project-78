@@ -1,10 +1,7 @@
 package hexlet.code.schemas;
 
 
-import hexlet.code.Schema;
-
-
-public class NumberSchema implements Schema {
+public class NumberSchema extends BaseSchema<Number> {
     static class Range {
 
         Range(int minValue, int maxValue) {
@@ -33,13 +30,10 @@ public class NumberSchema implements Schema {
     }
 
     @Override
-    public boolean isValid(Object obj) {
-        if (obj != null) {
-            if (!(obj instanceof Number value)) {
-                throw new IllegalArgumentException("A passed data should have the number type.");
-            }
-
+    public boolean isValid(Number value) {
+        if (value != null) {
             var dv = value.doubleValue();
+
             if ((isPositive) && (dv < 0)) {
                 return false;
             }

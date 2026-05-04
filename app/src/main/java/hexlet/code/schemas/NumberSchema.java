@@ -9,16 +9,16 @@ public class NumberSchema extends BaseSchema<Number> {
                 min = minValue;
                 max = maxValue;
             } else {
-                throw new RuntimeException(("Logical error: a range minimum '"
+                throw new IllegalArgumentException(("The range minimum '"
                         + minValue
-                        + "' is greater than a range maximum '"
+                        + "' is greater than the range maximum '"
                         + maxValue + "'"));
             }
 
         }
 
-        public int min;
-        public int max;
+        public final int min;
+        public final int max;
     }
 
     private boolean isRequired = false;
@@ -38,10 +38,8 @@ public class NumberSchema extends BaseSchema<Number> {
                 return false;
             }
 
-            if (valuesRange != null) {
-                if ((dv < valuesRange.min) || (dv > valuesRange.max)) {
-                    return false;
-                }
+            if ((valuesRange != null) && ((dv < valuesRange.min) || (dv > valuesRange.max))) {
+                return false;
             }
 
         } else {

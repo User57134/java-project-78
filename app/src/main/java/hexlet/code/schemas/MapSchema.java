@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public class MapSchema extends BaseSchema<Map<?, ?>> {
+public final class MapSchema extends BaseSchema<Map<?, ?>> {
     private boolean isRequired = false;
     private int size = 0;
     private Map<?, ? extends BaseSchema<?>> rules = null;

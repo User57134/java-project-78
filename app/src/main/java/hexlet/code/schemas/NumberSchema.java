@@ -1,7 +1,7 @@
 package hexlet.code.schemas;
 
 
-public class NumberSchema extends BaseSchema<Number> {
+public final class NumberSchema extends BaseSchema<Number> {
     static class Range {
 
         Range(int minValue, int maxValue) {
@@ -17,8 +17,19 @@ public class NumberSchema extends BaseSchema<Number> {
 
         }
 
-        public final int min;
-        public final int max;
+
+        public int getMin() {
+            return min;
+        }
+
+
+        public int getMax() {
+            return max;
+        }
+
+
+        private final int min;
+        private final int max;
     }
 
     private boolean isRequired = false;
@@ -38,7 +49,7 @@ public class NumberSchema extends BaseSchema<Number> {
                 return false;
             }
 
-            if ((valuesRange != null) && ((dv < valuesRange.min) || (dv > valuesRange.max))) {
+            if ((valuesRange != null) && ((dv < valuesRange.getMin()) || (dv > valuesRange.getMax()))) {
                 return false;
             }
 

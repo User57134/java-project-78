@@ -11,7 +11,7 @@
 Validator is a library for checking correctness of some data.
 
 ## Usage
-Firstly you create a validator object then select a validation schema and after that you apply it to check the data.
+Firstly, you create a validator object then select a validation schema and after that you apply it to check the data.
 You can set restrictions to numbers, strings and maps. Also you can define restrictions for map elements.
 
 ```ts

@@ -8,11 +8,38 @@
 
 
 ## Validator java project:
-...
+Validator is a library for checking correctness of some data.
 
-## Setup
+## Usage
+Firstly you create a validator object then select a validation schema and after that you apply it to check the data.
+You can set restrictions to numbers, strings and maps. Also you can define restrictions for map elements.
 
-## Run
+```ts
+import hexlet.code.Validator;
+import hexlet.code.schemas.MapSchema;
 
-## Sample:
+var v = new Validator();
+var stringSchema = v.string();
 
+stringSchema.minLength(10).minLength(4).isValid("Hexlet"); // true
+
+var numSchema = v.number();
+
+numSchema.isValid(5); // true
+numSchema.isValid(null); // true
+numSchema.positive().isValid(null); // true
+
+var mapSchema = v.map();
+
+var mapSchema = v.map();
+mapSchema.isValid(null); // true
+
+mapSchema.required();
+
+mapSchema.isValid(null); // false
+mapSchema.isValid(new HashMap<>()); // true
+var data = new HashMap<String, String>();
+data.put("key1", "value1");
+mapSchema.isValid(data); // true
+
+```

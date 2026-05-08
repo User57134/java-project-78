@@ -14,16 +14,10 @@ public class StringSchema extends BaseSchema<String> {
 
     @Override
     public boolean isValid(String value) {
-        if (value != null) {
-            if (value.isEmpty()) {
-                if (isRequired) {
-                    return false;
-                }
-            } else {
-                if (((length > 0) && (value.length() < length))
-                        || ((!substring.isEmpty()) && !value.contains(substring))) {
-                    return false;
-                }
+        if ((value != null) && (!value.isEmpty())) {
+            if (((length > 0) && (value.length() < length))
+                    || ((!substring.isEmpty()) && !value.contains(substring))) {
+                return false;
             }
         } else {
             if (isRequired) {

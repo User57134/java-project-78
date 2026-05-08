@@ -34,7 +34,7 @@ public class NumberSchema extends BaseSchema<Number> {
         if (value != null) {
             var dv = value.doubleValue();
 
-            if ((isPositive) && (dv < 0)) {
+            if ((isPositive) && (dv <= 0)) {
                 return false;
             }
 

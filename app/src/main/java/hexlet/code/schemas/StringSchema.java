@@ -2,35 +2,20 @@ package hexlet.code.schemas;
 
 
 public final class StringSchema extends BaseSchema<String> {
-    private boolean isRequired = false;
     private int length = 0;
-    private String substring = "";
+    private String substring = null;
 
 
     public StringSchema() {
-        //
-    }
+        isDefiniteValue = (v) -> (v != null) && (!v.isEmpty());
 
-
-    @Override
-    public boolean isValid(String value) {
-        if ((value != null) && (!value.isEmpty())) {
-            if (((length > 0) && (value.length() < length))
-                    || ((!substring.isEmpty()) && !value.contains(substring))) {
-                return false;
-            }
-        } else {
-            if (isRequired) {
-                return false;
-            }
-        }
-
-        return true;
+        checks.put("length", (v) -> ((length == 0) || ((length > 0) && (v.length() >= length))));
+        checks.put("substring", (v) -> ((substring == null) || (!substring.isEmpty() && v.contains(substring))));
     }
 
 
     public StringSchema required() {
-        isRequired = true;
+        required = true;
 
         return this;
     }

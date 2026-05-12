@@ -17,14 +17,10 @@ public final class NumberSchema extends BaseSchema<Number> {
 
         }
 
+        public boolean contains(Number n) {
+            var dv = n.doubleValue();
 
-        public int getMin() {
-            return min;
-        }
-
-
-        public int getMax() {
-            return max;
+            return dv >= min && (dv <= max);
         }
 
 
@@ -32,39 +28,18 @@ public final class NumberSchema extends BaseSchema<Number> {
         private final int max;
     }
 
-    private boolean isRequired = false;
+
     private boolean isPositive = false;
-    private Range valuesRange = null;
+    private Range values = null;
 
     public NumberSchema() {
-        //
-    }
-
-    @Override
-    public boolean isValid(Number value) {
-        if (value != null) {
-            var dv = value.doubleValue();
-
-            if ((isPositive) && (dv <= 0)) {
-                return false;
-            }
-
-            if ((valuesRange != null) && ((dv < valuesRange.getMin()) || (dv > valuesRange.getMax()))) {
-                return false;
-            }
-
-        } else {
-            if (isRequired) {
-                return false;
-            }
-        }
-
-        return true;
+        checks.put("positive", (v) -> ((!isPositive) || (v.doubleValue() > 0)));
+        checks.put("range", (v) -> ((values == null) || (values.contains(v))));
     }
 
 
     public NumberSchema required() {
-        isRequired = true;
+        required = true;
 
         return this;
     }
@@ -78,7 +53,7 @@ public final class NumberSchema extends BaseSchema<Number> {
 
 
     public NumberSchema range(int min, int max) {
-        valuesRange = new Range(min, max);
+        values = new Range(min, max);
 
         return this;
     }

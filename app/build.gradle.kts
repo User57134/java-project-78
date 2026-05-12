@@ -1,20 +1,19 @@
 plugins {
-    application
+    id("java")
     checkstyle
     jacoco
     id("org.sonarqube") version "7.3.0.8198"
 }
 
+
 group = "hexlet.code"
 version = "1.0-SNAPSHOT"
+
 
 repositories {
     mavenCentral()
 }
 
-application {
-    mainClass = "hexlet.code.App"
-}
 
 sonar {
     properties {
@@ -31,14 +30,17 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+
 dependencyLocking {
     lockAllConfigurations()
 }
+
 
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
 }
+
 
 tasks.jacocoTestReport {
     reports {

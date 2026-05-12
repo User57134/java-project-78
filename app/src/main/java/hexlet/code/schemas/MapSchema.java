@@ -3,13 +3,15 @@ package hexlet.code.schemas;
 import java.util.Map;
 
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
-    private boolean isRequired = false;
     private int size = 0;
     private Map<?, ? extends BaseSchema<?>> rules = null;
 
+
     public MapSchema() {
-        //
+        checks.put("size", (v) -> ((size == 0) || ((size > 0) && (v.size() == size))));
+        checks.put("shape", (v) -> (checkForRulesCompliance(v)));
     }
+
 
     private <K, V> boolean checkForRulesCompliance(Map<K, V> inputData) {
         if ((rules != null)) {
@@ -53,24 +55,9 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         return true;
     }
 
-    @Override
-    public boolean isValid(Map<?, ?> inputData) {
-        if (inputData != null) {
-            if (((size > 0) && (inputData.size() != size)) || (!checkForRulesCompliance(inputData))) {
-                return false;
-            }
-        } else {
-            if (isRequired) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
 
     public MapSchema required() {
-        isRequired = true;
+        required = true;
 
         return this;
     }

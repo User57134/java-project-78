@@ -23,10 +23,6 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         }
 
         for (var el : inputData.entrySet()) {
-            if (!rules.containsKey(el.getKey())) {
-                return false;
-            }
-
             var personalSchema = rules.get(el.getKey());
             var value = el.getValue();
 

@@ -1,19 +1,17 @@
 package hexlet.code.schemas;
 
+
 import java.util.Map;
 
-public final class MapSchema extends BaseSchema<Map<?, ?>> {
-    private int size = 0;
-    private Map<?, ? extends BaseSchema<?>> rules = null;
 
+public final class MapSchema extends BaseSchema<Map<?, ?>> {
 
     public MapSchema() {
-        checks.put("size", (v) -> ((size == 0) || ((size > 0) && (v.size() == size))));
-        checks.put("shape", (v) -> (checkForRulesCompliance(v)));
+        //
     }
 
 
-    private <K, V> boolean checkForRulesCompliance(Map<K, V> inputData) {
+    private <K, V> boolean checkForRulesCompliance(Map<K, V> inputData, Map<?, ? extends BaseSchema<?>> rules) {
         if ((rules != null)) {
             if (rules.size() != inputData.size()) {
                 return false;
@@ -63,19 +61,15 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     }
 
 
-    public MapSchema sizeof(int limit) {
-        if (limit >= 0) {
-            size = limit;
-        } else {
-            size = (int) Integer.toUnsignedLong(limit);
-        }
+    public MapSchema sizeof(int size) {
+        addCheck("sizeof", (v) -> ((size <= 0) || (v.size() == size)));
 
         return this;
     }
 
 
     public <K, T> MapSchema shape(Map<K, BaseSchema<T>>  validationRules) {
-        rules = validationRules;
+        addCheck("shape", (v) -> checkForRulesCompliance(v, validationRules));
 
         return this;
     }

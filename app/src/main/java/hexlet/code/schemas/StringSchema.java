@@ -5,7 +5,7 @@ public final class StringSchema extends BaseSchema<String> {
 
 
     public StringSchema() {
-        isDefiniteValue = (v) -> (v != null) && (!v.isEmpty());
+        isDefiniteValue = v -> (v != null) && (!v.isEmpty());
     }
 
 
@@ -17,14 +17,22 @@ public final class StringSchema extends BaseSchema<String> {
 
 
     public StringSchema contains(String str) {
-        addCheck("contains", (v) -> ((str == null) || str.isEmpty() || v.contains(str)));
+        if (str == null) {
+            throw new IllegalArgumentException("The substring parameter is not defined: null.");
+        }
+
+        addCheck("contains", v -> (str.isEmpty() || v.contains(str)));
 
         return this;
     }
 
 
     public StringSchema minLength(int len) {
-        addCheck("minLength", (v) -> ((len <= 0) || (v.length() >= len)));
+        if (len < 0) {
+            throw new IllegalArgumentException("The length parameter can not be lower than 0: " + len);
+        }
+
+        addCheck("minLength", v -> (v.length() >= len));
 
         return this;
     }

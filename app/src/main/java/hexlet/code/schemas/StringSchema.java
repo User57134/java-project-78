@@ -5,7 +5,7 @@ public final class StringSchema extends BaseSchema<String> {
 
 
     public StringSchema() {
-        isDefiniteValue = v -> (v != null) && (!v.isEmpty());
+        addCheck("required", value -> value != null && !value.isEmpty());
     }
 
 

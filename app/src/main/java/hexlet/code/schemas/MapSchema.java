@@ -11,42 +11,6 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     }
 
 
-    private boolean isApplicable(Map<?, ?> inputData, Map<?, ? extends BaseSchema<?>> rules) {
-        return ((rules != null)  && (rules.size() == inputData.size())
-                && (inputData.keySet().equals(rules.keySet())));
-    }
-
-
-    private boolean checkForRulesCompliance(Map<?, ?> inputData, Map<?, ? extends BaseSchema<?>> rules) {
-        if (!isApplicable(inputData, rules)) {
-            throw new IllegalArgumentException("The provided rules can not be applicable to the input data.");
-        }
-
-        for (var el : inputData.entrySet()) {
-            var personalSchema = rules.get(el.getKey());
-            var value = el.getValue();
-
-            if (value instanceof String) {
-                @SuppressWarnings("unchecked")
-                var stringSchema = (BaseSchema<String>) personalSchema;
-                if (!stringSchema.isValid((String) value)) {
-                    return false;
-                }
-            } else if (value instanceof Number) {
-                @SuppressWarnings("unchecked")
-                var numberSchema = (BaseSchema<Number>) personalSchema;
-                if (!numberSchema.isValid((Number) value)) {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
     public MapSchema required() {
         required = true;
 
@@ -65,9 +29,18 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     }
 
 
-    public <K, T> MapSchema shape(Map<K, BaseSchema<T>>  validationRules) {
-        addCheck("shape", v -> checkForRulesCompliance(v, validationRules));
-
+    public <K, T> MapSchema shape(Map<K, BaseSchema<T>> schemas) {
+        addCheck(
+                "shape",
+                map -> {
+                    return schemas.entrySet().stream().allMatch(e -> {
+                        var key = e.getKey();
+                        var v = map.get(key);
+                        var schema = e.getValue();
+                        return schema.isValid((T) v);
+                    });
+                }
+        );
         return this;
     }
 }

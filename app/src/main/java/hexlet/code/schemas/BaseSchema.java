@@ -9,7 +9,10 @@ import java.util.function.Predicate;
 public abstract class BaseSchema<T> {
     protected Map<String, Predicate<T>> checks = new LinkedHashMap<>();
     protected boolean required = false;
-    protected Predicate<T> isDefiniteValue = Objects::nonNull;
+
+    public BaseSchema() {
+        addCheck("required", Objects::nonNull);
+    }
 
 
     protected final void addCheck(String name, Predicate<T> validate) {
@@ -18,8 +21,12 @@ public abstract class BaseSchema<T> {
 
 
     public final boolean isValid(T value) {
+        var it = checks.entrySet().iterator();
+        var isDefiniteValue = it.next().getValue();
+
         if (isDefiniteValue.test(value)) {
-            for (var predicate : checks.values()) {
+            while (it.hasNext()) {
+                var predicate = it.next().getValue();
                 if (!predicate.test(value)) {
                     return false;
                 }

@@ -10,6 +10,7 @@ public abstract class BaseSchema<T> {
     protected Map<String, Predicate<T>> checks = new LinkedHashMap<>();
     protected boolean required = false;
 
+
     public BaseSchema() {
         addCheck("required", Objects::nonNull);
     }

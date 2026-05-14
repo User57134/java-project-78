@@ -37,7 +37,9 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
                         var key = e.getKey();
                         var v = map.get(key);
                         var schema = e.getValue();
-                        return schema.isValid((T) v);
+                        @SuppressWarnings("unchecked")
+                        T value = (T) v;
+                        return schema.isValid(value);
                     });
                 }
         );
